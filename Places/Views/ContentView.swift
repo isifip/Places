@@ -20,6 +20,19 @@ struct ContentView: View {
             VStack(spacing: 0) {
                 header
                 Spacer()
+                ZStack {
+                    ForEach(viewModel.locations) { location in
+                        if viewModel.mapLocation == location {
+                            PreviewView(location: location)
+                                .shadow(color: .black.opacity(0.3), radius: 20)
+                                .padding()
+                                .transition(.asymmetric(
+                                    insertion: .move(edge: .trailing),
+                                    removal: .move(edge: .leading))
+                                )
+                        }
+                    }
+                }
             }
         }
     }

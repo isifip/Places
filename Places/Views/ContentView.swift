@@ -13,12 +13,15 @@ struct ContentView: View {
     
     @EnvironmentObject private var viewModel: LocationsViewModel
     
+    let maxWidthForIpad: CGFloat = 700
+    
     var body: some View {
         ZStack {
             mapLayer
                 .ignoresSafeArea()
             VStack(spacing: 0) {
                 header
+                    .frame(maxWidth: maxWidthForIpad)
                 Spacer()
                 PreviewStack
             }
@@ -91,6 +94,8 @@ extension ContentView {
                     PreviewView(location: location)
                         .shadow(color: .black.opacity(0.3), radius: 20)
                         .padding()
+                        .frame(maxWidth: maxWidthForIpad)
+                        .frame(maxWidth: .infinity)
                         .transition(.asymmetric(
                             insertion: .move(edge: .trailing),
                             removal: .move(edge: .leading))

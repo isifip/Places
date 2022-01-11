@@ -23,6 +23,9 @@ struct ContentView: View {
                 PreviewStack
             }
         }
+        .sheet(item: $viewModel.sheetLocation) { location in
+            DetailView(location: location)
+        }
     }
 }
 

@@ -7,15 +7,24 @@
 
 import SwiftUI
 
+
+
 struct ContentView: View {
+    
+    @EnvironmentObject private var viewModel: LocationsViewModel
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        List {
+            ForEach(viewModel.locations) {
+                Text($0.name)
+            }
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(LocationsViewModel())
     }
 }

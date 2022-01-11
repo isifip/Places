@@ -15,24 +15,12 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            Map(coordinateRegion: $viewModel.mapRegion)
+            mapLayer
                 .ignoresSafeArea()
             VStack(spacing: 0) {
                 header
                 Spacer()
-                ZStack {
-                    ForEach(viewModel.locations) { location in
-                        if viewModel.mapLocation == location {
-                            PreviewView(location: location)
-                                .shadow(color: .black.opacity(0.3), radius: 20)
-                                .padding()
-                                .transition(.asymmetric(
-                                    insertion: .move(edge: .trailing),
-                                    removal: .move(edge: .leading))
-                                )
-                        }
-                    }
-                }
+                PreviewStack
             }
         }
     }
@@ -66,8 +54,8 @@ extension ContentView {
                             .rotationEffect(Angle(degrees: viewModel.showLocationsList ? 180 : 0))
                     }
             }
-
-
+            
+            
             if viewModel.showLocationsList {
                 ListView()
             }
@@ -76,5 +64,36 @@ extension ContentView {
         .cornerRadius(10)
         .shadow(color: .black.opacity(0.3), radius: 20, x: 0, y: 15)
         .padding()
+    }
+    
+    private var mapLayer: some View {
+        Map(coordinateRegion: $viewModel.mapRegion,
+            annotationItems: viewModel.locations,
+            annotationContent: { location in
+            MapAnnotation(coordinate: location.coordinates) {
+                MapAnnotationView()
+                    .scaleEffect(viewModel.mapLocation == location ? 1.0 : 0.7)
+                    .shadow(radius: 10)
+                    .onTapGesture {
+                        viewModel.showNextLocation(location: location)
+                    }
+            }
+        })
+    }
+    
+    private var PreviewStack: some View {
+        ZStack {
+            ForEach(viewModel.locations) { location in
+                if viewModel.mapLocation == location {
+                    PreviewView(location: location)
+                        .shadow(color: .black.opacity(0.3), radius: 20)
+                        .padding()
+                        .transition(.asymmetric(
+                            insertion: .move(edge: .trailing),
+                            removal: .move(edge: .leading))
+                        )
+                }
+            }
+        }
     }
 }

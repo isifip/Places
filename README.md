@@ -2,3 +2,11 @@
 
 - No remote data fetching.
 - Using MapKit
+- MVVM
+- Clean code. body of the views are clean. using view extensions for components
+
+
+# To-Do
+
+- Hook up some real data
+- Increase list of places
